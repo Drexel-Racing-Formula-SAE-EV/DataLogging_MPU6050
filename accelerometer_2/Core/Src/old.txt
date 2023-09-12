@@ -1,0 +1,35 @@
+old
+// uint8_t data[6];
+	// //int16_t x_acc;
+	// HAL_I2C_Mem_Read(&hi2c1, (MPU6050_ADDR<<1)+1, REG_DATA,1, data, 6, 200);
+	// x_acc = ((((int16_t)data[0])<<8)+data[1])/16384.0;
+	// //printf("x axis acceleration: %d \n",x_acc);
+	// HAL_I2C_Mem_Read(&hi2c1, (MPU6050_ADDR<<1)+1, REG_DATA,1, data, 2, 200);
+	// y_acc = ((((int16_t)data[0])<<8)+data[1])/16384.0;
+	// HAL_I2C_Mem_Read(&hi2c1, (MPU6050_ADDR<<1)+1, REG_DATA,1, data, 2, 200);
+	// z_acc = ((((int16_t)data[0])<<8)+data[1])/16384.0;
+
+
+
+gyroscope-------------------------------
+
+
+	//uint8_t Rec_Data[6];
+	HAL_StatusTypeDef ret = 0;
+	//int16_t x_acc;
+
+	uint8_t read_reg[] = {GYRO_XOUT_H_REG,
+								GYRO_XOUT_H_REG+1,
+								GYRO_XOUT_H_REG+2,
+								GYRO_XOUT_H_REG+3,
+								GYRO_XOUT_H_REG+4,
+								GYRO_XOUT_H_REG+5};
+	//HAL_I2C_Mem_Read(&hi2c1, (MPU6050_ADDR<<1)+1, read_reg,6, data, 2, 200);
+
+	ret = HAL_I2C_Master_Transmit(&hi2c1, (MPU6050_ADDR<<1), read_reg, 6, 1000);
+	ret = HAL_I2C_Master_Receive(&hi2c1,(MPU6050_ADDR<<1), data, 6, 1000);
+
+	x_gyro = ((((int16_t)data[0])<<8)+data[1])/131.0;
+	y_gyro = ((((int16_t)data[2])<<8)+data[3])/131.0;
+	z_gyro = ((((int16_t)data[4])<<8)+data[5])/131.0;
+	//printf("x axis acceleration: %d \n",x_gyro);
